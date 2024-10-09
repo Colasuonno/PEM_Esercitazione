@@ -29,6 +29,7 @@ int main(int argc, char* argv){
 	MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 	MPI_Comm_size(MPI_COMM_WORLD, &world_size);
 
+	srand(rank);
     // Go try
     for (int times = 0; times < local_tries; times++){
     	float x = (rand() / (float)RAND_MAX) * 2 - 1;
