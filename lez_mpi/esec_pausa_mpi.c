@@ -22,7 +22,7 @@ int main(int argc, char* argv){
 
 	int global_circles;
 	int global_tries;
-	int local_tries = 10000;
+	int local_tries = 10000000;
 	int local_circles = 0;
 
 	MPI_Init(NULL, NULL);
@@ -31,11 +31,9 @@ int main(int argc, char* argv){
 
     // Go try
     for (int times = 0; times < local_tries; times++){
-    	srand(time(NULL) + rank);
-    	double x = (rand() / (double)RAND_MAX) * 2 - 1;
-    	srand(time(NULL) + rank + x);
-    	double y = (rand() / (double)RAND_MAX) * 2 - 1;
-    	double distance = x*x + y*y;
+    	float x = (rand() / (float)RAND_MAX) * 2 - 1;
+    	float y = (rand() / (float)RAND_MAX) * 2 - 1;
+    	float distance = x*x + y*y;
     	if (distance <= 1){
     		local_circles++;
     	}
