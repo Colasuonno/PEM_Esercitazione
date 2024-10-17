@@ -29,8 +29,8 @@ int main(int argc, char* argv){
 	int* recv_arr;
 	int AMNT_NUMS = ARR_SIZE / size;
 	int* arr;
+	int* mul_arr = (int*) malloc(sizeof(int)*size);
 
-	printf("Exec rank %i\n", rank);
 	if (rank == 0){
 
 		arr = generate_random_arr(ARR_SIZE);
@@ -42,11 +42,23 @@ int main(int argc, char* argv){
 	// 0 is root -> sending data to others
 	MPI_Scatter(arr, 1, MPI_INT, recv_arr, 1, MPI_INT, 0, MPI_COMM_WORLD);
 
-	printf("Rank %i recv data %i\n", rank, *recv_arr);
-	
 	if (rank == 0){
 		free(arr);
 	}
+
+	printf("Rank %i recv data %i\n", rank, *recv_arr);
+
+	*recv_arr *= 2;
+
+	MPI_Allgather(recv_arr, 1, MPI_INT, mul_arr, 1, MPI_INT, MPI_COMM_WORLD);
+
+	if (rank == 0){
+		printf("MUL ARR Is");
+		print_arr(mul_arr, size);
+		free(mul_arr);
+	}
+	
+	
 
 	MPI_Finalize();
 }
